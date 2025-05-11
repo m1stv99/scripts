@@ -217,6 +217,18 @@ local function antiAfk()
     end)
 end
 
+local function bringGasCansTo(cframePosition)
+	for _, model in pairs(workspace:GetDescendants()) do
+		if model:IsA("Model") and model.Name == "GasCan" then
+			local primaryPart = model.PrimaryPart or model:FindFirstChildWhichIsA("BasePart")
+			if primaryPart then
+				model:SetPrimaryPartCFrame(cframePosition)
+			end
+		end
+	end
+end
+
+
 local function destroyTornado()
     while true do
         local tornado = game.Workspace:FindFirstChild("TornadoModel")
@@ -453,6 +465,15 @@ MiscTab:CreateButton({
 })
 
 MiscTab:CreateButton({
+    Name = "Bring GasCans",
+    Callback = function()
+        local targetPos = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+        bringGasCansTo(targetPos)
+    end
+})
+
+
+MiscTab:CreateButton({
     Name = "Anti AFK",
     Callback = antiAfk
 })
@@ -465,7 +486,7 @@ MiscTab:CreateButton({
 MiscTab:CreateButton({
     Name = "Bring Guns",
     Callback = function()
-        local guns = {"AK47", "PumpShotgun", "RPG", "Mac10", "Pistol", "AMMO_CRATE"}
+        local guns = {"AK47", "PumpShotgun", "RPG", "Mac10", "Pistol", "AMMO_CRATE", "Railgun", "RayGun", "Nuke Launcher", "GoldMiniGun"}
         for _, gun in ipairs(guns) do
             teleportObjects(gun)
         end
